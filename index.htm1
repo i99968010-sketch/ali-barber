@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>علی باربر | رزرو نوبت</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#101010;color:#fff}
+header{text-align:center;padding:35px 15px;background:#191919;border-bottom:2px solid #c7a45b}
+header h1{font-size:35px;color:#d9b76b;margin:10px}
+header p{color:#ddd}
+main{max-width:600px;margin:25px auto;padding:20px}
+.card{background:#1d1d1d;padding:24px;border-radius:16px;border:1px solid #383838}
+h2{color:#d9b76b}
+label{display:block;margin:16px 0 8px}
+input,select,button{width:100%;padding:14px;border-radius:9px;font-size:16px}
+input,select{background:#292929;color:#fff;border:1px solid #555}
+button{background:#d9b76b;color:#111;border:0;font-weight:bold;margin-top:20px;cursor:pointer}
+.services{line-height:2.3;color:#eee}
+footer{text-align:center;padding:25px;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:42px">✂️</div>
+<h1>علی باربر</h1>
+<p>استایل خاص تو، امضای ماست</p>
+<p>رزرو آنلاین نوبت آرایشگاه</p>
+</header>
+<main>
+<section class="card">
+<h2>خدمات آرایشگاه</h2>
+<div class="services">
+✂️ کوتاهی مو<br>
+🧔 اصلاح و مرتب‌کردن ریش<br>
+💈 استایل و حالت‌دهی مو
+</div>
+<hr style="border-color:#444">
+<h2>رزرو نوبت</h2>
+<form id="booking">
+<label for="name">نام شما</label>
+<input id="name" required placeholder="نام خود را وارد کنید">
+<label for="phone">شماره تماس</label>
+<input id="phone" type="tel" required placeholder="شماره تماس">
+<label for="date">انتخاب روز</label>
+<input id="date" type="date" required>
+<label for="time">انتخاب ساعت</label>
+<select id="time" required>
+<option value="">ابتدا روز را انتخاب کنید</option>
+</select>
+<button type="submit">درخواست رزرو از طریق واتساپ</button>
+</form>
+<p style="color:#aaa;font-size:13px;line-height:2">ساعت کاری: ۱۱ تا ۱۴ و ۱۶ تا ۲۳<br>رزرو پس از تأیید آرایشگاه قطعی می‌شود.</p>
+</section>
+</main>
+<footer>© علی باربر | تمامی حقوق محفوظ است</footer>
+<script>
+const dateInput=document.getElementById('date');
+const timeSelect=document.getElementById('time');
+dateInput.min=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+dateInput.addEventListener('change',()=>{
+timeSelect.innerHTML='<option value="">انتخاب ساعت</option>';
+for(let h of [11,12,13,14,16,17,18,19,20,21,22]){
+for(let m of [0,30]){
+if(h===14&&m>0)continue;
+if(h===22&&m>0)continue;
+const t=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+const o=document.createElement('option');
+o.value=t;o.textContent=t;
+timeSelect.appendChild(o);
+}}
+});
+document.getElementById('booking').addEventListener('submit',e=>{
+e.preventDefault();
+const phone='شماره واتساپ آرایشگاه را اینجا وارد کن';
+const msg=`سلام، درخواست رزرو نوبت دارم.%0Aنام: ${document.getElementById('name').value}%0Aشماره تماس: ${document.getElementById('phone').value}%0Aتاریخ: ${dateInput.value}%0Aساعت: ${timeSelect.value}`;
+if(phone==='شماره واتساپ آرایشگاه را اینجا وارد کن'){
+alert('صفحه ساخته شده! برای فعال‌شدن ارسال درخواست، باید شماره واتساپ آرایشگاه را در کد قرار دهیم.');
+return;
+}
+window.open('https://wa.me/'+phone+'?text='+msg,'_blank');
+});
+</script>
+</body>
+</html>
